@@ -1,55 +1,74 @@
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('./config/connection.js');
+const sequelize = require('../config/connection');
+const bcrypt = require('bcrypt');
 
-class User extends Model {}
+// create our User model
+class User extends Model {
+    // set up method to run on instance data (per user) to check password
+    checkPassword(loginPw) {
+        return bcrypt.compareSync(loginPw, this.password);
+    }
+}
 
+// define table columns and configuration
 User.init(
     {
-        id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-            autoIncrement: true,
-            },
-            
-        first_name: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            },
-        last_name: {
-            type: DataTypes.STRING,
-            allowNull: false,
+        
+        // define an email column
+        email: {
+          type: DataTypes.STRING,
+          allowNull: false,
+          unique: true,
+          validate: {
+            isEmail: true
+          }
         },
-        album_id: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: 'album',
-                key: 'id',
-            },
+        // define a password column
+        password: {
+          type: DataTypes.STRING,
+          allowNull: false,
+          validate: {
+            len: [4]
+          }
         },
-        movie_id: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: 'movie',
-                key: 'id',
-            }
+        preferences1: DataTypes.STRING,
+        preferences2: DataTypes.STRING,
+        preferences3: DataTypes.STRING,
+        createdAt: {
+            type: DataTypes.DATE,
+            defaultValue: new Date()
         },
-        book_id: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: 'book',
-                key: 'id',
-            },
+        updatedAt: {
+            type: DataTypes.DATE,
+            defaultValue: new Date()
+        }
+        
+      },
+  {
+      hooks: {
+        // set up beforeCreate lifecycle "hook" functionality
+        async beforeCreate(newUserData) {
+            newUserData.password = await bcrypt.hash(newUserData.password, 10);
+            return newUserData;
         },
-    },
-    {
-        sequelize,
-        timestamps: false,
-        freezeTableName: true,
-        underscored: true,
-        modelName: 'user',
-    }
+          // set up beforeUpdate lifecycle "hook" functionality
+        async beforeUpdate(updatedUserData) {
+            updatedUserData.password = await bcrypt.hash(updatedUserData.password, 10);
+            return updatedUserData;
+        }
+      },
+
+    sequelize,
+    timestamps: false,
+    freezeTableName: true,
+    underscored: true,
+    modelName: 'user'
+  }
 );
 
-
 module.exports = User;
+
+
+
+
+
