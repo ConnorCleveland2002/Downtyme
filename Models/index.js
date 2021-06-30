@@ -11,3 +11,6 @@ googleBook.belongsTo(user, {
 });
 
 module.exports = { user, googleBook };
+=======
+
+module.exports = { User };
