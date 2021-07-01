@@ -5,11 +5,22 @@ class googleBook extends Model {}
 
 googleBook.init(
   {
+    kind: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       primaryKey: true,
-      autoIncrement: true,
+    },
+    etag: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    selfLink: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     title: {
       type: DataTypes.STRING,
@@ -17,27 +28,23 @@ googleBook.init(
     },
     subtitle: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     authors: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    categories: {
+    publisher: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    publishedDate: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     description: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    published_year: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    number_page: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+      type: DataTypes.STRING,
+      allowNull: true,
     },
    },
 
