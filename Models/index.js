@@ -1,16 +1,15 @@
 const User = require('./user');
 const googleBook = require('./googleBook');
 
-User.hasMany(GoogleBook, {
+User.hasMany(googleBook, {
   foreignKey: 'user_id',
   onDelete: 'CASCADE'
 });
 
-googleBook.belongsTo(user, {
+googleBook.belongsTo(User, {
   foreignKey: 'user_id'
 });
 
-module.exports = { user, googleBook };
-=======
+module.exports = { User, googleBook };
 
 module.exports = { User };

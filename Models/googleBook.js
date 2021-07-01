@@ -32,11 +32,11 @@ googleBook.init(
       allowNull: false,
     },
     published_year: {
-      type: Datatype.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     number_page: {
-      type: Datatype.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
    },
