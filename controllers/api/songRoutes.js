@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const express = require("express");
-// const { spotifyModel } = require("../../../Models");
+const { Song } = require("../../Models");
 var SpotifyWebAPI = require("spotify-web-api-node");
 const axios = require("axios").default;
 
@@ -8,7 +8,7 @@ router.get("/", async (req, res) => {
   try {
     console.log("testing songs");
     const token =
-      "BQBkN4D5VkKZa-GWaUAPJCS3gEKLBB6Zylk2NP2ghEms_Lr-ZXyN7Ajj__KDThqiZU0PT_zlZBIPgm2P76P2nDrxnU5NAWttVGiXd6JOlBkaeimKn8AO4IfLqy-qH43uhMD-Nxuft1r8T7s5x4FFZs65HiQ2aAp3uGWwEG6hwpWzP4ZEfsL5Eo5F5g";
+      "BQDQb7kLUa5xu_q7JgeesntBo7bgs4Yi3p3TrwdjcSzsw4HIvm0VRhUUolvuzRnlyvehSOgXFdlOrSIrJtG8G6f3vFyx5_C_iAhbSXewSWtF-tAiJoW2A7-jBiKETVoJqocBbJY2kPjm8_h5qOYn0OeIWsxjbKwzdMuclDWK49RXJhQTc4SCaca_rw";
     const songsRaw = await axios({
       method: "GET",
       url: "https://api.spotify.com/v1/playlists/5fT9VLQwUxQOqwpNjK3ga5",
@@ -42,6 +42,10 @@ router.get("/", async (req, res) => {
     //     console.log(err);
     //     res.status(500).json(err);
     //   });
+      Song.bulkCreate(songs, {
+          individualHooks: true,
+          returning: true
+      })
     res.json(songs);
   } catch (error) {
     res.json(error);
