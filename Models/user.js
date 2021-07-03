@@ -13,13 +13,20 @@ class User extends Model {
 // define table columns and configuration
 User.init(
   {
-    //added ID parameter -Mark    
+    // added ID parameter -Mark    
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
       autoIncrement: true,
     },
+
+    // name parameter
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
     // define an email column
     email: {
       type: DataTypes.STRING,
@@ -30,11 +37,12 @@ User.init(
       },
     },
     // define a password column
+    // changed password to 8 character validate - Mark
     password: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [4],
+        len: [8],
       },
     },
     preferences1: DataTypes.STRING,
