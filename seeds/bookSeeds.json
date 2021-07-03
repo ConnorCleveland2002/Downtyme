@@ -61,7 +61,7 @@
         "publishedDate": "2018-10-02",
         "pageCount": 18,
         "printType": "BOOK",
-        "categories": "Juvenile Fiction"
+        "category": "Juvenile Fiction"
       },
       {
         "kind": "books#volume",
@@ -76,7 +76,7 @@
         "publishedDate": "2008-09-16",
         "pageCount": 352,
         "printType": "BOOK",
-        "categories": "Computers"
+        "category": "Computers"
       },
       {
         "kind": "books#volume",
@@ -92,7 +92,7 @@
         "description": "Forty-six fun-filled word search challenges feature such themes as the 13 colonies, football and baseball teams, authors, landmarks, classic rock songs, astronauts, country music singers, and many other subjects.",
         "pageCount": 64,
         "printType": "BOOK",
-        "categories": 
+        "category": 
             "Games & Activities"
       },
       {
@@ -108,7 +108,7 @@
         "publishedDate": "1998-12-18",
         "pageCount": 344,
         "printType": "BOOK",
-        "categories": "Mathematics"
+        "category": "Mathematics"
       },
       {
         "kind": "books#volume",
@@ -122,7 +122,7 @@
         "publishedDate": "2016-08-09",
         "pageCount": 416,
         "printType": "BOOK",
-        "categories": "Biography & Autobiography"
+        "category": "Biography & Autobiography"
         }
     
 ]

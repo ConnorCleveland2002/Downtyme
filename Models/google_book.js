@@ -55,7 +55,7 @@ google_book.init(
       type: DataTypes.STRING,
       allowNull: true,
     },
-    categories: {
+    category: {
       type: DataTypes.STRING,
       allowNull: true,
     },

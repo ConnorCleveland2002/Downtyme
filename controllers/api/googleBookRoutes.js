@@ -11,7 +11,7 @@ const axios = require("axios").default;
         console.log("books list");
         const bookList = await axios({
           method: "GET",
-          url: 'https://www.googleapis.com/books/v1/volumes?q=printType=all&key&key=AIzaSyDtIDO7fZg0HMzaHAbrf8XjGXAx'
+          url: 'https://www.googleapis.com/books/v1/volumes?q=all&key&key=AIzaSyDtIDO7fZg0HMzaHAbrf8XjGXAx'
         });
         console.log(bookList);
 
@@ -30,9 +30,9 @@ const axios = require("axios").default;
             publisher: book.volumeInfo.publisher,
             pubishedDate: book.volumeInfo.publishedDate,
             description: book.volumeInfo.description,
-            "page_count": book.volumeInfo.pageCount,
-            "print_type": book.volumeInfo.printType,
-            category: book.volumeInfo.categories
+            pageCount: book.volumeInfo.pageCount,
+            printType: book.volumeInfo.printType,
+            category: book.volumeInfo.category
           };
           return allBooks;
         });
@@ -59,9 +59,9 @@ const axios = require("axios").default;
           authors: req.body.authors,
           publisher: req.body.publisher,
           publishedDate: req.body.publishedDate,
-          page_count: req.body.page_count,
-          print_type: req.body.print_type,
-          category: req.body.category,
+          pageCount: req.body.pageCount,
+          printType: req.body.printType,
+          categories: req.body.categories,
         });
     
         res.status(200).json(newBook);
@@ -74,22 +74,18 @@ const axios = require("axios").default;
     router.delete('/', async (req, res) => {
       try {
         const projectBook = await google_book.destroy({
-          where: {
-            id: req.params.id,
-            book_id: req.session.book_id,
-          },
+        where: {
+          id:req.params.id
+        }, 
+         
         });
-    
-        if (!projectBook) {
-          res.status(404).json({ message: 'No project found with this id!' });
-          return;
-        }
     
         res.status(200).json(projectBook);
       } catch (err) {
         res.status(500).json(err);
       }
     });
+
 
     module.exports = router;
 
