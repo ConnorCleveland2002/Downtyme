@@ -8,47 +8,40 @@ router.get("/", async (req, res) => {
   try {
     console.log("testing songs");
     const token =
-      "BQDQb7kLUa5xu_q7JgeesntBo7bgs4Yi3p3TrwdjcSzsw4HIvm0VRhUUolvuzRnlyvehSOgXFdlOrSIrJtG8G6f3vFyx5_C_iAhbSXewSWtF-tAiJoW2A7-jBiKETVoJqocBbJY2kPjm8_h5qOYn0OeIWsxjbKwzdMuclDWK49RXJhQTc4SCaca_rw";
+      "BQDSVXXH8Kpwu8B3PnMIWpzEq324bCJbKiIn5UbIImNz0Fjy_Fmy97jCzmhwjR85-k4mlqRBQawot8JZK4xMAiuHj9sB0lmb-6FlE83JL94WFCKwuY7aRROKhUoLOObFx-My5sz9C9ItOK8ZcnJzjUY5Jq0a_L5caC6cfEisJPKw1Ib8DZ7zBZ67nw";
     const songsRaw = await axios({
       method: "GET",
-      url: "https://api.spotify.com/v1/playlists/5fT9VLQwUxQOqwpNjK3ga5",
+      url: "https://api.spotify.com/v1/playlists/4f7Z4a4jtI9ow3tGAX200y",
       headers: { Authorization: `Bearer ${token}` },
     });
-    // console.log(songsRaw.data.tracks.items);
     const songs = songsRaw.data.tracks.items.map((song) => {
-      // console.log(song.track.name)
-      // console.log(song.track.artists[0].name)
-      // console.log(song.track.album.name)
-      // console.log(song.track.external_urls.spotify)
-      // console.log(song.track)
-      //   try {
       const newSong = {
         song_title: song.track.name,
         artist: song.track.artists[0].name,
         album: song.track.album.name,
         song_link: song.track.external_urls.spotify,
       };
-      //   } catch (err) {
-      //     console.log(err)
-      //   };
-      // console.log(newSong);
       return newSong;
     });
     console.log(songs);
-    // spotifyModel
-    //   .findAll({})
-    //   .then((spotifyData) => res.json(spotifyData))
-    //   .catch((err) => {
-    //     console.log(err);
-    //     res.status(500).json(err);
-    //   });
-      Song.bulkCreate(songs, {
-          individualHooks: true,
-          returning: true
-      })
+    Song.bulkCreate(songs, {
+      individualHooks: true,
+      returning: true,
+    });
     res.json(songs);
   } catch (error) {
     res.json(error);
   }
 });
+
+router.get("/songs/:id", async (req, res) => {
+  try {
+    const singleSongData = await Song.findOne(req.params.id);
+    console.log(singleSongData);
+    res.render("song", singleSongData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;
