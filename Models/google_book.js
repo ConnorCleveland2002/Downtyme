@@ -1,18 +1,23 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
-class googleBook extends Model {}
+class google_book extends Model {}
 
-googleBook.init(
+google_book.init(
   {
     kind: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     id: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
+      autoIncrement: true,
+    },
+    book_id: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     etag: {
       type: DataTypes.STRING,
@@ -28,7 +33,7 @@ googleBook.init(
     },
     subtitle: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     authors: {
       type: DataTypes.STRING,
@@ -42,7 +47,15 @@ googleBook.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    description: {
+    pageCount: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    printType: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    category: {
       type: DataTypes.STRING,
       allowNull: true,
     },
@@ -53,8 +66,8 @@ googleBook.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'googleBook',
+    modelName: 'google_book',
   }
 );
 
-module.exports = googleBook;
+module.exports = google_book;

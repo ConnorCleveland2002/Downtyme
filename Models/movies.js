@@ -5,7 +5,7 @@ class movies extends Model {}
 
 movies.init(
   {
-    imbdID: {
+    id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,

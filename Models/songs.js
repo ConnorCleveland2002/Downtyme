@@ -5,6 +5,12 @@ class Song extends Model {}
 
 Song.init(
   {
+    song_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     song_title: {
       type: DataTypes.TEXT,
       allowNull: false,
