@@ -20,6 +20,11 @@ User.init(
       primaryKey: true,
       autoIncrement: true,
     },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: false,
+    },
     // define an email column
     email: {
       type: DataTypes.STRING,
