@@ -1,10 +1,31 @@
 const router = require("express").Router();
-const { User } = require("../../models");
+const { User } = require("../../Models");
 
 //CRUD
 //where are we creating the user?
 
 //create
+router.get("/", async (req, res) => {
+  try {
+    const allUsers = await User.findAll();
+    res.status(200).json(allUsers); 
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
+
+router.get("/:id", async (req, res) => {
+  try {
+    const oneUser = await User.findOne(req.params.id);
+    if (!oneUser) {
+      res.status(404).json({ message: 'No user found!' });
+      return;
+    }
+    res.status(200).json(oneUser);
+  } catch (err) {
+    res.status(400).json(err)
+  }
+})
 
 router.post("/", async (req, res) => {
   try {
@@ -65,22 +86,3 @@ router.post('/logout', (res, req) => {
 });
 
 module.exports = router;
-
-
-//delete
-
-// router.delete("/:id", (req, res) => {
-//   try {
-//     const deleteUser = await User.destroy(req.params.id);
-//     if (!deleteUser) {
-//       res.status(404).json({ message: "No user found with this id!" });
-//       return;
-//     }
-//     res.status(200).json(deleteUser);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
-
-
-
