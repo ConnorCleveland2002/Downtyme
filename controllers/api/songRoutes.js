@@ -8,7 +8,7 @@ router.get("/", async (req, res) => {
   try {
     console.log("testing songs");
     const token =
-      "BQDSVXXH8Kpwu8B3PnMIWpzEq324bCJbKiIn5UbIImNz0Fjy_Fmy97jCzmhwjR85-k4mlqRBQawot8JZK4xMAiuHj9sB0lmb-6FlE83JL94WFCKwuY7aRROKhUoLOObFx-My5sz9C9ItOK8ZcnJzjUY5Jq0a_L5caC6cfEisJPKw1Ib8DZ7zBZ67nw";
+      "BQDQO_K3T1Kpi3TSvIZ65KmgTIk_4_4BsEGu50ZIKoklZauDc1cPFhs96QaqCntY2b1mOGmMNDrrkX-j1xVwZkyyxz-nLks7OaDvNz5Gm54CwGqr1nMDHhoJbSCk7XG9AzIydYuYF9QDFc8RXgHbU2WmZBlEruI9eqEkEkwOg2VM5_K18mhmPyIffA";
     const songsRaw = await axios({
       method: "GET",
       url: "https://api.spotify.com/v1/playlists/4f7Z4a4jtI9ow3tGAX200y",
@@ -34,11 +34,40 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/songs/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const singleSongData = await Song.findOne(req.params.id);
     console.log(singleSongData);
     res.render("song", singleSongData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+router.post("/", async (req, res) => {
+  try {
+    const newSong = await Song.create({
+      song_title: req.body.song_title,
+      artist: req.body.artist,
+      album: req.body.album,
+      song_link: req.body.song_link,
+    });
+
+    res.status(200).json(newSong);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  try {
+    const projectSong = await Song.destroy({
+      where: {
+        song_id: req.params.id,
+      },
+    });
+
+    res.status(200).json(projectSong);
   } catch (err) {
     res.status(500).json(err);
   }

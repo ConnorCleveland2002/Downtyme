@@ -1,53 +1,40 @@
 const router = require('express').Router();
-const { google_book, User, Song } = require('../models');
+const { googleBook, User, Song } = require('../models');
 const withAuth = require('../utils/auth');
 
 router.get('/', async (req, res) => {
   try {
-    const userData = await User.findAll({
-      include: [
-        {
+        const userData = await User.findAll({
+          include: [{
           model: User,
           attributes: ['name'],
         },
       ],
     });
+    const bookData = await googleBook.findAll({
+      include: [
+        {},
+      ],
+    });
+
     // Serialize data so the template can read it
     const userArr = userData.map((user) => user.get({ plain: true }));
+    const googleBooks = bookData.map((googleBook) => googleBook.get({ plain: true }));
 
     // Pass serialized data and session flag into template
     res.render('homepage', { 
       userArr, 
+      googleBooks, 
       logged_in: req.session.logged_in 
     });
   } catch (err) {
     res.status(500).json(err);
   }
-  //   const bookData = await google_book.findAll({
-  //     include: [
-  //       {
-  //         model: google_book,
-  //         attributes: ['name'],
-  //       },
-  //     ],
-  //   });
-
-  //   // Serialize data so the template can read it
-  //   const googleBooks = bookData.map((googleBook) => googleBook.get({ plain: true }));
-
-  //   // Pass serialized data and session flag into template
-  //   res.render('homepage', { 
-  //     googleBooks, 
-  //     logged_in: req.session.logged_in 
-  //   });
-  // } catch (err) {
-  //   res.status(500).json(err);
-  // }
 });
 
 router.get('/googleBook/:id', async (req, res) => {
   try {
-    const bookData = await google_book.findByPk(req.params.id, {
+    const bookData = await googleBook.findByPk(req.params.id, {
       include: [
         {},
       ],
@@ -65,7 +52,7 @@ router.get('/googleBook/:id', async (req, res) => {
 });
 
 // Use withAuth middleware to prevent access to route
-router.get('/profile', async (req, res) => {
+router.get('/profile', withAuth, async (req, res) => {
   try {
     // Find the logged in user based on the session ID
     const userData = await User.findByPk(req.session.user_id, {
