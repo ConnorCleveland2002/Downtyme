@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const sequelize = require('../Config/connection');
-const { google_book, user, songs } = require('../Models');
+const { google_book, user, songs, movies, userBook } = require('../Models');
 
 
 router.get('/home', async (req,res) => {
@@ -18,7 +18,7 @@ router.get('/books', async (req, res) => {
       ],
     });
 
-    const dataOne = mediaOne.map((media) => media.get({ plain: true }));
+    const dataOne = mediaOne.map((google_book) => google_book.get({ plain: true }));
 
     res.render('browse', { 
       dataOne, 
@@ -40,7 +40,7 @@ router.get('/songs', async (req, res) => {
       ],
     });
 
-    const dataTwo = mediaTwo.map((media) => media.get({ plain: true }));
+    const dataTwo = mediaTwo.map((songs) => songs.get({ plain: true }));
 
     res.render('browse', { 
       dataTwo, 
