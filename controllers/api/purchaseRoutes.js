@@ -1,4 +1,6 @@
-var db = require("../models");
+var db = require('../../models');
+const router = require('express').Router();
+
 
 
     router.get("/api/purchases", (req, res) => {
@@ -12,15 +14,15 @@ var db = require("../models");
         });
     });
 
-    router.get("/api/purchase/:UserId", function (req, res) {
+    router.get("/api/purchases/:UserId", function (req, res) {
         db.Purchase.findAll({
             where: {
-                UserId: req.params.UserId
+                userId: req.params.userId
             },
             include: [db.Book]
         }).then(function (dbPurchase) {
-            console.log('In .get /api/purchase/:UserId - findAll()');
-            console.log('req.params.UserId: ', req.params.UserId);
+            console.log('In .get /api/purchases/:userId - findAll()');
+            console.log('req.params.userId: ', req.params.userId);
             console.log('dbPurchase: ', dbPurchase);
             res.json(dbPurchase);
         });
@@ -28,8 +30,8 @@ var db = require("../models");
 
     router.post("/api/purchases", (req, res) => {
         db.Purchase.create({
-            UserId: req.body.UserId,
-            MediaId: req.body.MediaId,
+            userId: req.body.userId,
+            bookId: req.body.bookId,
             date: new Date()
         }).then(function (dbPurchase) {
             console.log('In .POST /api/purchases - create()');
@@ -38,12 +40,12 @@ var db = require("../models");
           
             db.Purchase_Book.create({
                 PurchaseId: dbPurchase.id,
-                MediaId: req.body.MediaId
-            }).then(function (dbPurchase_Media) {
-                console.log('In .POST /api/purchase - create() - Purchase_Media');
+                BbokId: req.body.bookId
+            }).then(function (dbPurchase_Book) {
+                console.log('In .POST /api/purchases - create() - Purchase_Book');
                 console.log('req.body: ', req.body);
-                console.log('dbPurchase_Book: ', dbPurchase_Media);
-                res.json(dbPurchase_Media);
+                console.log('dbPurchase_Book: ', dbPurchase_Book);
+                res.json(dbPurchase_Book);
             });
         });
     });
@@ -52,26 +54,26 @@ var db = require("../models");
     router.delete("/api/purchases/:UserId", (req, res) => {
         db.Purchase.destroy({
             where: {
-                UserId: req.params.UserId
+                userId: req.params.userId
             }
         }).then(function (dbPurchase) {
             console.log('In .DELETE /api/purchases - destroy()');
-            console.log('req.params.UserId: ', req.params.UserId);
+            console.log('req.params.UserId: ', req.params.userId);
             console.log('dbPurchase: ', dbPurchase);
             res.json(dbPurchase);
         });
     });
 
-    app.put("/api/purchases", (req, res) => {
+    router.put("/api/purchases", (req, res) => {
         db.Purchase.update(
             req.body,
             {
                 where: {
-                    UserId: req.body.UserId
+                    userId: req.body.userId
                 }
             }).then(function (dbPurchase) {
                 console.log('In .PUT /api/purchases - update()');
-                console.log('req.body.UserId: ', req.body.UserId);
+                console.log('req.body.UserId: ', req.body.userId);
                 console.log('dbPurchase: ', dbPurchase);
                 res.json(dbPurchase);
             });

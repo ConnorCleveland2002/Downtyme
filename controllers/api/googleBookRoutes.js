@@ -71,7 +71,7 @@ const axios = require("axios").default;
     });
 
 // Delete a book
-    router.delete('/:id', async (req, res) => {
+    router.delete('/', async (req, res) => {
       try {
         const projectBook = await google_book.destroy({
         where: {
