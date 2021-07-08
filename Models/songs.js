@@ -1,16 +1,19 @@
-const { Model, DataTypes } = require("sequelize");
-const sequelize = require("../config/connection");
+const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../Config/connection');
 
-class Song extends Model {}
+class songs extends Model {}
 
-Song.init(
+songs.init(
   {
-    song_id: {
+    
+    id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
       autoIncrement: true,
+    
     },
+    
     song_title: {
       type: DataTypes.TEXT,
       allowNull: false,
@@ -28,7 +31,13 @@ Song.init(
       allowNull: false,
     },
   },
-  { sequelize }
+  {
+    sequelize,
+    timestamps: false,
+    freezeTableName: true,
+    underscored: true,
+    modelName: 'songs',
+  }
 );
 
-module.exports = Song;
+module.exports = songs;
