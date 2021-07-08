@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const sequelize = require('../config/connection');
-const { google_book, User, songs } = require('../models');
+const { google_book, User, Song } = require('../models');
 
 
 router.get('/home', async (req,res) => {
@@ -50,12 +50,29 @@ router.get('/songs', async (req, res) => {
   }
 });
 
+router.get("/profile", async (req, res) => {
+  try {
+    const songData = await Song.findAll({
+      order: [["song_title", "ASC"]],
+    });
+    const songs = songData.map((song) =>
+      song.get({ plain: true })
+    );
+
+    res.render("profile", {
+      songs,
+      logged_in: req.session.logged_in,
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 router.get('/', (req, res) => {
     if (req.user) {
       res.redirect('/home');
     } else {
-      res.render('signup', {js: ['signup.js']});
+      res.render('/', {js: ['signup.js']});
     }
   });
 
