@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const sequelize = require('../config/connection');
-const { google_book, User, songs } = require('../models');
+const sequelize = require('../Config/connection');
+const { google_book, user, songs } = require('../Models');
 
 
 router.get('/home', async (req,res) => {
@@ -12,7 +12,7 @@ router.get('/books', async (req, res) => {
     const mediaOne = await google_book.findAll({
       include: [
         {
-          model: User,
+          model: user,
           attributes: ['name'],
         },
       ],
@@ -20,7 +20,7 @@ router.get('/books', async (req, res) => {
 
     const dataOne = mediaOne.map((media) => media.get({ plain: true }));
 
-    res.render('homepage', { 
+    res.render('browse', { 
       dataOne, 
       logged_in: req.session.logged_in 
     });
@@ -28,6 +28,7 @@ router.get('/books', async (req, res) => {
     res.status(500).json(err);
   }
 });
+
 router.get('/songs', async (req, res) => {
   try {
     const mediaTwo = await songs.findAll({
@@ -41,7 +42,7 @@ router.get('/songs', async (req, res) => {
 
     const dataTwo = mediaTwo.map((media) => media.get({ plain: true }));
 
-    res.render('homepage', { 
+    res.render('browse', { 
       dataTwo, 
       logged_in: req.session.logged_in 
     });
@@ -50,36 +51,33 @@ router.get('/songs', async (req, res) => {
   }
 });
 
+router.get('/login', (req, res) => {
+  if (req.session.loggedIn) {
+    res.redirect('/browse');
+    return;
+  }
 
-router.get('/', (req, res) => {
-    if (req.user) {
-      res.redirect('/home');
-    } else {
-      res.render('signup', {js: ['signup.js']});
-    }
-  });
+  res.render('login');
+});
 
-  router.get('/login', (req, res) => {
-    if (req.user) {
-      res.redirect('/home');
-    } else {
-      res.render('login', {js: ['login.js']});
-    }
-  });
+router.get('/signup', (req, res) => {
+  if (req.session.loggedIn) {
+    res.redirect('/browse');
+    return;
+  }
 
-  router.get('/home', (req, res) => {
-    if (req.user)
-    res.render('home', {js: ['home.js']});
-  });
-  router.get('/browse', (req, res) => {
-    if (req.user)
-    res.render('browse', {js: ['media.js']});
-  });
-  
-  router.get('/save', (req, res) => {
-    if (req.user)
-    res.render('save', {js: ['saveMedia.js']});
-  });
+  res.render('signup');
+});
+
+router.get('/home', async (req,res) => {
+  res.render('browse')
+});
+router.get('/home', async (req,res) => {
+  res.render('cart')
+});
+router.get('/home', async (req,res) => {
+  res.render('home')
+});
     
 
 module.exports = router;

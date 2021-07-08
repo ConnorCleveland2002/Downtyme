@@ -1,4 +1,6 @@
-var db = require("../models");
+var db = require('../../models');
+const router = require('express').Router();
+
 
 
   // GET route for getting all of the shoppingcarts
@@ -16,12 +18,12 @@ var db = require("../models");
   router.get("/api/shoppingcart/:UserId", (req, res) => {
     db.Shoppingcart.findOne({
       where: {
-        UserId: req.params.UserId
+        userId: req.params.userId
       },
       
     }).then(function (dbShoppingcart) {
       console.log('In .get /api/shoppingcarts - findOne()');
-      console.log('req.params.UserId: ', req.params.UserId);
+      console.log('req.params.UserId: ', req.params.userId);
       console.log('dbShoppingcart: ', dbShoppingcart);
       res.json(dbShoppingcart);
     });
@@ -30,8 +32,8 @@ var db = require("../models");
   
   router.post("/api/shoppingcarts", (req, res) => {
     db.Shoppingcart.create({
-      UserId: req.body.UserId,
-      MediaId: req.body.MediaId
+      userId: req.body.userId,
+      bookId: req.body.bookId
     }).then(function (dbShoppingcart) {
       console.log('In .POST /api/shoppingcarts - create()');
       console.log('req.body: ', req.body);
@@ -41,11 +43,11 @@ var db = require("../models");
 
       db.Shoppingcart_Book.create({
         ShoppingcartId: dbShoppingcart.id,
-        BookId: req.body.BookId
-      }).then(function (dbShoppingcart_Media) {
+        bookId: req.body.BookId
+      }).then(function (dbShoppingcart_Book) {
         console.log('In .POST /api/shoppingcarts - create() - Shoppingcart_Book');
         console.log('req.body: ', req.body);
-        console.log('dbShoppingcart_Book: ', dbShoppingcart_Media);
+        console.log('dbShoppingcart_Book: ', dbShoppingcart_Book);
         res.json(dbShoppingcart_Book);
       });
     });
@@ -56,11 +58,11 @@ var db = require("../models");
   router.delete("/api/shoppingcarts/:UserId", (req, res) => {
     db.Shoppingcart.destroy({
       where: {
-        UserId: req.params.UserId
+        userId: req.params.userId
       }
     }).then(function (dbShoppingcart) {
       console.log('In .DELETE /api/shoppingcarts - destroy()');
-      console.log('req.params.UserId: ', req.params.UserId);
+      console.log('req.params.UserId: ', req.params.userId);
       console.log('dbShoppingcart: ', dbShoppingcart);
       res.json(dbShoppingcart);
     });
@@ -72,11 +74,11 @@ var db = require("../models");
       req.body,
       {
         where: {
-          UserId: req.body.UserId
+          UserId: req.body.userId
         }
       }).then(function (dbShoppingcart) {
         console.log('In .PUT /api/shoppingcarts - update()');
-        console.log('req.body.UserId: ', req.body.UserId);
+        console.log('req.body.UserId: ', req.body.userId);
         console.log('dbShoppingcart: ', dbShoppingcart);
         res.json(dbShoppingcart);
       });

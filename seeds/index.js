@@ -1,8 +1,12 @@
 const sequelize = require('../config/connection');
-const { google_book } = require('../models');
+const { google_book, user, movies, songs } = require('../models');
+
 
 
 const bookSeeds = require('./bookSeeds.json');
+const userSeeds = require('./userSeeds.json');
+const moviesSeeds = require('./moviesSeeds.json');
+const musicSeeds = require('./musicSeeds.json');
 
 
 const seedAll = async () => {
@@ -12,9 +16,13 @@ const seedAll = async () => {
       returning: true,
     });
   
+   await user.bulkCreate(userSeeds);
+   await movies.bulkCreate(moviesSeeds);
+   await songs.bulkCreate(musicSeeds);
+  
     console.log('\n----- DATABASE SYNCED -----\n');
   
-    console.log('\n----- googleBook SEEDED -----\n');
+    console.log('\n----- googleBook user and movies SEEDED -----\n');
 
   process.exit(0);
 };
