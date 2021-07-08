@@ -17,7 +17,6 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const oneUser = await User.findOne(req.params.id);
-    res.render("user", oneUser)
     if (!oneUser) {
       res.status(404).json({ message: 'No user found!' });
       return;
