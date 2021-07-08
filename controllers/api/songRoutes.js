@@ -6,7 +6,7 @@ const axios = require("axios").default;
 
 router.get("/", async (req, res) => {
   try {
-    const token = process.env.token
+    const token = process.env.token;
     const songsRaw = await axios({
       method: "GET",
       url: "https://api.spotify.com/v1/playlists/4f7Z4a4jtI9ow3tGAX200y",
