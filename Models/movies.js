@@ -14,8 +14,6 @@ movies.init(
     movies_id: {
       type: DataTypes.STRING,
       allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
     },
     title: {
       type: DataTypes.STRING,
@@ -29,12 +27,8 @@ movies.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    description: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
     released: {
-      type: DataTypes.STRING, format: Date,
+      type: DataTypes.STRING, 
       allowNull: false,
     },
    },
