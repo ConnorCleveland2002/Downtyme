@@ -1,9 +1,9 @@
 const { Model, DataTypes } = require("sequelize");
-const sequelize = require("../Config/connection");
+const sequelize = require("../config/connection");
 const bcrypt = require("bcrypt");
 
 // create our User model
-class user extends Model {
+class User extends Model {
   // set up method to run on instance data (per user) to check password
   checkPassword(loginPw) {
     return bcrypt.compareSync(loginPw, this.password);
@@ -11,7 +11,7 @@ class user extends Model {
 }
 
 // define table columns and configuration
-user.init(
+User.init(
   {
     // added ID parameter -Mark    
     id: {
@@ -39,11 +39,22 @@ user.init(
     // define a password column
     // changed password to 8 character validate - Mark
     password: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         len: [8],
       },
+    },
+    preferences1: DataTypes.STRING,
+    preferences2: DataTypes.STRING,
+    preferences3: DataTypes.STRING,
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: new Date(),
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: new Date(),
     },
   },
   {
@@ -71,4 +82,4 @@ user.init(
   }
 );
 
-module.exports = user;
+module.exports = User;

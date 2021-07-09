@@ -1,5 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../Config/connection');
+const sequelize = require('../config/connection');
 
 class google_book extends Model {}
 
@@ -15,10 +15,10 @@ google_book.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    // book_id: {
-    //   type: DataTypes.STRING,
-    //   allowNull: false,
-    // },
+    book_id: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     etag: {
       type: DataTypes.STRING,
       allowNull: false,
